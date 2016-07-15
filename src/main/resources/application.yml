@@ -1,0 +1,13 @@
+netty:
+  server:
+    transfer:
+      type: tcp
+      port: 9812
+    thread:
+      count:
+        boss: 1
+        worker: 1
+    log:
+      level:
+        pipeline: ERROR
+        bootstrap: ERROR

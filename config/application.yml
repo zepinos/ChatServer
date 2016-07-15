@@ -1,0 +1,18 @@
+netty:
+  server:
+    transfer:
+      type: tcp
+      port: 9812
+    thread:
+      count:
+        boss: 1
+        worker: 1
+    log:
+      level:
+        pipeline: INFO
+        bootstrap: INFO
+logging:
+  level:
+    io.netty: INFO
+    com.zepinos.chat.server.ChatServerApplication: INFO
+    ROOT: WARN
