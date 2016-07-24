@@ -36,3 +36,15 @@ git clone 을 한 뒤 maven 으로 package 를 만들어서 jar 파일을 실행
 {"method": "send", "content": "Send Message"}
 </pre>
 
+채팅 룸을 만들거나 메세지를 보내는 것은 아래와 같이 룸 생성-메세지 발송을 테스트 해봅니다.
+
+### 1번 클라이언트
+<pre>
+{"method": "create_room"}
+</pre>
+
+### 2번 클라이언트
+<pre>
+{"method": "enter_room", "roomId": "(1번 클라이언트에서 응답으로 온 roomId)"}
+{"method": "send_room", "content": "Test Message"}
+</pre>
