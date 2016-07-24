@@ -5,8 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zepinos.chat.server.Domain.Repository.UserRepository;
-import com.zepinos.chat.server.Netty.Server.Repository.ChannelIdRepository;
-import com.zepinos.chat.server.Netty.Server.Repository.UserIdRepository;
+import com.zepinos.chat.server.Repository.ChannelIdUserIdRepository;
+import com.zepinos.chat.server.Repository.UserIdChannelRepository;
 import com.zepinos.chat.server.Service.LoginService;
 import com.zepinos.chat.server.Service.MessageService;
 import com.zepinos.chat.server.Service.SendService;
@@ -28,9 +28,9 @@ public class JsonHandler extends SimpleChannelInboundHandler<String> {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-	private ChannelIdRepository channelIdRepository;
+	private ChannelIdUserIdRepository channelIdUserIdRepository;
 	@Autowired
-	private UserIdRepository userIdRepository;
+	private UserIdChannelRepository userIdChannelRepository;
 	@Autowired
 	private MessageService messageService;
 	@Autowired

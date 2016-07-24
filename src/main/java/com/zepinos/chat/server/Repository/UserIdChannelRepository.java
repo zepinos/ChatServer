@@ -1,4 +1,4 @@
-package com.zepinos.chat.server.Netty.Server.Repository;
+package com.zepinos.chat.server.Repository;
 
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class UserIdRepository {
+public class UserIdChannelRepository {
 
 	private final Map<String, Channel> userIdChannelMap = new ConcurrentHashMap<>();
 

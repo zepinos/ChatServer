@@ -2,8 +2,8 @@ package com.zepinos.chat.server.Service;
 
 import com.zepinos.chat.server.Domain.Repository.UserRepository;
 import com.zepinos.chat.server.Domain.User;
-import com.zepinos.chat.server.Netty.Server.Repository.ChannelIdRepository;
-import com.zepinos.chat.server.Netty.Server.Repository.UserIdRepository;
+import com.zepinos.chat.server.Repository.ChannelIdUserIdRepository;
+import com.zepinos.chat.server.Repository.UserIdChannelRepository;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,9 @@ public class LoginService {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-	private ChannelIdRepository channelIdRepository;
+	private ChannelIdUserIdRepository channelIdUserIdRepository;
 	@Autowired
-	private UserIdRepository userIdRepository;
+	private UserIdChannelRepository userIdChannelRepository;
 	@Autowired
 	private MessageService messageService;
 
@@ -63,8 +63,8 @@ public class LoginService {
 		}
 
 		// 사용자 정보 입력
-		channelIdRepository.getChannelIdUserIdMap().put(channel.id(), userId);
-		userIdRepository.getUerIdChannelMap().put(userId, channel);
+		channelIdUserIdRepository.getChannelIdUserIdMap().put(channel.id(), userId);
+		userIdChannelRepository.getUerIdChannelMap().put(userId, channel);
 
 		messageService.returnMessage(channel, result, method);
 
@@ -75,10 +75,10 @@ public class LoginService {
 		ChannelId channelId = channel.id();
 
 		// 사용자 정보 제거
-		Map<ChannelId, String> channelIdUserIdMap = channelIdRepository.getChannelIdUserIdMap();
+		Map<ChannelId, String> channelIdUserIdMap = channelIdUserIdRepository.getChannelIdUserIdMap();
 
 		String userId = channelIdUserIdMap.get(channelId);
-		userIdRepository.getUerIdChannelMap().remove(userId);
+		userIdChannelRepository.getUerIdChannelMap().remove(userId);
 		channelIdUserIdMap.remove(channelId);
 
 	}

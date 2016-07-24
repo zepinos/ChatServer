@@ -2,8 +2,8 @@ package com.zepinos.chat.server.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zepinos.chat.server.Domain.Repository.UserRepository;
-import com.zepinos.chat.server.Netty.Server.Repository.ChannelIdRepository;
-import com.zepinos.chat.server.Netty.Server.Repository.UserIdRepository;
+import com.zepinos.chat.server.Repository.ChannelIdUserIdRepository;
+import com.zepinos.chat.server.Repository.UserIdChannelRepository;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,9 @@ public class SendService {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Autowired
-	private ChannelIdRepository channelIdRepository;
+	private ChannelIdUserIdRepository channelIdUserIdRepository;
 	@Autowired
-	private UserIdRepository userIdRepository;
+	private UserIdChannelRepository userIdChannelRepository;
 	@Autowired
 	private UserRepository userRepository;
 
@@ -36,7 +36,7 @@ public class SendService {
 	                 Map<String, Object> data,
 	                 Map<String, Object> result) throws Exception {
 
-		String userId = channelIdRepository.getChannelIdUserIdMap().get(channel.id());
+		String userId = channelIdUserIdRepository.getChannelIdUserIdMap().get(channel.id());
 
 		result.put("method", method);
 		result.put("userId", userId);
@@ -45,7 +45,7 @@ public class SendService {
 
 		String resultMessage = objectMapper.writeValueAsString(result);
 
-		userIdRepository.writeAndFlush(resultMessage);
+		userIdChannelRepository.writeAndFlush(resultMessage);
 
 	}
 
