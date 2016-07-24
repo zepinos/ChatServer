@@ -27,6 +27,14 @@ public class NettyChannelInitializer extends ChannelInitializer<Channel> {
 	@Autowired
 	private ChannelInboundHandlerAdapter jsonHandler;
 
+	/**
+	 * 채널 파이프라인 설정.
+	 * Netty.Server.Configuration.NettyServerConfiguration 에서 등록한 Bean 을 이용해 사용자의 통신을 처리할 Handler 도 등록.
+	 * Netty.Server.Handler.JsonHandler 에서 실제 사용자 요청 처리.
+	 *
+	 * @param channel
+	 * @throws Exception
+	 */
 	@Override
 	protected void initChannel(Channel channel) throws Exception {
 
