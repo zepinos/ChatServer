@@ -25,11 +25,11 @@ public class SendService {
 	/**
 	 * 모든 접속된 사용자에게 메세지 전송
 	 *
-	 * @param channel
-	 * @param method
-	 * @param data
-	 * @param result
-	 * @throws Exception
+	 * @param channel Netty 채널
+	 * @param method  data method
+	 * @param data    전송받은 데이터
+	 * @param result  전송할 데이터
+	 * @throws Exception 예외
 	 */
 	public void send(Channel channel,
 	                 String method,

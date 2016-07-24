@@ -3,9 +3,12 @@ package com.zepinos.chat.server.Service;
 import com.zepinos.chat.server.Domain.Repository.UserRepository;
 import com.zepinos.chat.server.Domain.User;
 import com.zepinos.chat.server.Repository.ChannelIdUserIdRepository;
+import com.zepinos.chat.server.Repository.RoomIdUserIdRepository;
 import com.zepinos.chat.server.Repository.UserIdChannelRepository;
+import com.zepinos.chat.server.Repository.UserIdRoomIdRepository;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +24,20 @@ public class LoginService {
 	@Autowired
 	private UserIdChannelRepository userIdChannelRepository;
 	@Autowired
+	private UserIdRoomIdRepository userIdRoomIdRepository;
+	@Autowired
+	private RoomIdUserIdRepository roomIdUserIdRepository;
+	@Autowired
 	private MessageService messageService;
 
 	/**
 	 * 사용자 로그인
 	 *
-	 * @param channel
-	 * @param method
-	 * @param data
-	 * @param result
-	 * @throws Exception
+	 * @param channel Netty 채널
+	 * @param method  data method
+	 * @param data    전송받은 데이터
+	 * @param result  전송할 데이터
+	 * @throws Exception 예외
 	 */
 	public void login(Channel channel,
 	                  String method,
@@ -70,16 +77,35 @@ public class LoginService {
 
 	}
 
+	/**
+	 * 접속 사용자 정보 제거
+	 *
+	 * @param channel Netty 채널
+	 */
 	public void removeUser(Channel channel) {
 
 		ChannelId channelId = channel.id();
+		Map<ChannelId, String> channelIdUserIdMap = channelIdUserIdRepository.getChannelIdUserIdMap();
+		String userId = channelIdUserIdMap.get(channelId);
 
 		// 사용자 정보 제거
-		Map<ChannelId, String> channelIdUserIdMap = channelIdUserIdRepository.getChannelIdUserIdMap();
+		if (!StringUtils.isEmpty(userId)) {
 
-		String userId = channelIdUserIdMap.get(channelId);
-		userIdChannelRepository.getUerIdChannelMap().remove(userId);
-		channelIdUserIdMap.remove(channelId);
+			userIdChannelRepository.getUerIdChannelMap().remove(userId);
+
+			String roomId = userIdRoomIdRepository.getUerIdRoomIdMap().get(userId);
+
+			// 룸 정보 제거
+			if (!StringUtils.isEmpty(roomId)) {
+
+				roomIdUserIdRepository.getRoomIdUserIdMap().remove(roomId, userId);
+				userIdRoomIdRepository.getUerIdRoomIdMap().remove(userId);
+
+			}
+
+			channelIdUserIdMap.remove(channelId);
+
+		}
 
 	}
 

@@ -9,6 +9,7 @@ import com.zepinos.chat.server.Repository.ChannelIdUserIdRepository;
 import com.zepinos.chat.server.Repository.UserIdChannelRepository;
 import com.zepinos.chat.server.Service.LoginService;
 import com.zepinos.chat.server.Service.MessageService;
+import com.zepinos.chat.server.Service.RoomService;
 import com.zepinos.chat.server.Service.SendService;
 import io.netty.channel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +27,13 @@ public class JsonHandler extends SimpleChannelInboundHandler<String> {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private ChannelIdUserIdRepository channelIdUserIdRepository;
-	@Autowired
-	private UserIdChannelRepository userIdChannelRepository;
-	@Autowired
 	private MessageService messageService;
 	@Autowired
 	private LoginService loginService;
 	@Autowired
 	private SendService sendService;
+	@Autowired
+	private RoomService roomService;
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, String s) throws Exception {
@@ -77,6 +74,30 @@ public class JsonHandler extends SimpleChannelInboundHandler<String> {
 
 				// 메세지 전송
 				sendService.send(channel, method, data, result);
+				break;
+
+			case "create_room":
+
+				// 룸 생성
+				roomService.create(channel, method, result);
+				break;
+
+			case "enter_room":
+
+				// 룸 입장
+				roomService.enter(channel, method, data, result);
+				break;
+
+			case "exit_room":
+
+				// 룸 퇴장
+				roomService.exit(channel, method, result);
+				break;
+
+			case "send_room":
+
+				// 룸에 메세지 전송
+				roomService.send(channel, method, data, result);
 				break;
 
 			default:

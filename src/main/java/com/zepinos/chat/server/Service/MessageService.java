@@ -1,5 +1,6 @@
 package com.zepinos.chat.server.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.Channel;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -15,11 +16,11 @@ public class MessageService {
 	/**
 	 * 예외 발생 메세지 전송
 	 *
-	 * @param channel
-	 * @param result
-	 * @param throwable
-	 * @param status
-	 * @throws Exception
+	 * @param channel   Netty 채널
+	 * @param result    전송할 데이터
+	 * @param throwable 예외
+	 * @param status    상태코드
+	 * @throws Exception 예외
 	 */
 	public void returnMessage(Channel channel, Map<String, Object> result, Throwable throwable, String status) throws Exception {
 
@@ -33,17 +34,25 @@ public class MessageService {
 	/**
 	 * 메세지 전송
 	 *
-	 * @param channel
-	 * @param result
-	 * @param method
-	 * @throws Exception
+	 * @param channel Netty 채널
+	 * @param result  전송할 데이터
+	 * @param method  data method
 	 */
-	void returnMessage(Channel channel, Map<String, Object> result, String method) throws Exception {
+	void returnMessage(Channel channel, Map<String, Object> result, String method) {
 
 		result.put("status", "0");
 		result.put("method", method);
 
-		channel.writeAndFlush(objectMapper.writeValueAsString(result) + System.lineSeparator());
+		try {
+
+			channel.writeAndFlush(objectMapper.writeValueAsString(result) + System.lineSeparator());
+
+		} catch (JsonProcessingException e) {
+
+			e.printStackTrace();
+
+		}
+
 
 	}
 
