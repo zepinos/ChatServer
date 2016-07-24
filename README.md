@@ -48,3 +48,9 @@ git clone 을 한 뒤 maven 으로 package 를 만들어서 jar 파일을 실행
 {"method": "enter_room", "roomId": "(1번 클라이언트에서 응답으로 온 roomId)"}
 {"method": "send_room", "content": "Test Message"}
 </pre>
+
+채팅룸에서 나가는 것은 아래와 같은 명령을 이용합니다.
+
+<pre>
+{"method": "exit_room"}
+</pre>
