@@ -71,7 +71,7 @@ public class LoginService {
 
 		// 사용자 정보 입력
 		channelIdUserIdRepository.getChannelIdUserIdMap().put(channel.id(), userId);
-		userIdChannelRepository.getUerIdChannelMap().put(userId, channel);
+		userIdChannelRepository.getUserIdChannelMap().put(userId, channel);
 
 		messageService.returnMessage(channel, result, method);
 
@@ -91,15 +91,15 @@ public class LoginService {
 		// 사용자 정보 제거
 		if (!StringUtils.isEmpty(userId)) {
 
-			userIdChannelRepository.getUerIdChannelMap().remove(userId);
+			userIdChannelRepository.getUserIdChannelMap().remove(userId);
 
-			String roomId = userIdRoomIdRepository.getUerIdRoomIdMap().get(userId);
+			String roomId = userIdRoomIdRepository.getUserIdRoomIdMap().get(userId);
 
 			// 룸 정보 제거
 			if (!StringUtils.isEmpty(roomId)) {
 
 				roomIdUserIdRepository.getRoomIdUserIdMap().remove(roomId, userId);
-				userIdRoomIdRepository.getUerIdRoomIdMap().remove(userId);
+				userIdRoomIdRepository.getUserIdRoomIdMap().remove(userId);
 
 			}
 

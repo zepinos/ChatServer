@@ -16,7 +16,7 @@ public class UserIdChannelRepository {
 
 	private final Map<String, Channel> userIdChannelMap = new ConcurrentHashMap<>();
 
-	public Map<String, Channel> getUerIdChannelMap() {
+	public Map<String, Channel> getUserIdChannelMap() {
 		return userIdChannelMap;
 	}
 

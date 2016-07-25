@@ -11,7 +11,7 @@ public class UserIdRoomIdRepository {
 
 	private final Map<String, String> userIdRoomIdMap = new ConcurrentHashMap<>();
 
-	public Map<String, String> getUerIdRoomIdMap() {
+	public Map<String, String> getUserIdRoomIdMap() {
 		return userIdRoomIdMap;
 	}
 

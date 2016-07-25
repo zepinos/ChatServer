@@ -46,7 +46,7 @@ public class RoomService {
 		String userId = channelIdUserIdRepository.getChannelIdUserIdMap().get(channel.id());
 
 		// 이미 룸에 입장해있는지 확인
-		if (userIdRoomIdRepository.getUerIdRoomIdMap().containsKey(userId)) {
+		if (userIdRoomIdRepository.getUserIdRoomIdMap().containsKey(userId)) {
 
 			messageService.returnMessage(channel, result, new Exception("룸에 입장해있는 사용자입니다."), "1006");
 			return;
@@ -58,7 +58,7 @@ public class RoomService {
 
 		// 룸 입장
 		roomIdUserIdRepository.getRoomIdUserIdMap().put(roomId, userId);
-		userIdRoomIdRepository.getUerIdRoomIdMap().put(userId, roomId);
+		userIdRoomIdRepository.getUserIdRoomIdMap().put(userId, roomId);
 
 		result.put("method", method);
 		result.put("roomId", roomId);
@@ -84,7 +84,7 @@ public class RoomService {
 		String userId = channelIdUserIdRepository.getChannelIdUserIdMap().get(channel.id());
 
 		// 이미 룸에 입장해있는지 확인
-		if (userIdRoomIdRepository.getUerIdRoomIdMap().containsKey(userId)) {
+		if (userIdRoomIdRepository.getUserIdRoomIdMap().containsKey(userId)) {
 
 			messageService.returnMessage(channel, result, new Exception("룸에 입장해있는 사용자입니다."), "1006");
 			return;
@@ -103,7 +103,7 @@ public class RoomService {
 
 		// 룸 입장
 		roomIdUserIdRepository.getRoomIdUserIdMap().put(roomId, userId);
-		userIdRoomIdRepository.getUerIdRoomIdMap().put(userId, roomId);
+		userIdRoomIdRepository.getUserIdRoomIdMap().put(userId, roomId);
 
 		result.put("method", method);
 		result.put("roomId", roomId);
@@ -127,7 +127,7 @@ public class RoomService {
 		String userId = channelIdUserIdRepository.getChannelIdUserIdMap().get(channel.id());
 
 		// 룸에 입장해있는지 확인
-		if (!userIdRoomIdRepository.getUerIdRoomIdMap().containsKey(userId)) {
+		if (!userIdRoomIdRepository.getUserIdRoomIdMap().containsKey(userId)) {
 
 			messageService.returnMessage(channel, result, new Exception("룸에 존재하지 않습니다."), "1008");
 			return;
@@ -135,11 +135,11 @@ public class RoomService {
 		}
 
 		// 룸 아이디
-		String roomId = userIdRoomIdRepository.getUerIdRoomIdMap().get(userId);
+		String roomId = userIdRoomIdRepository.getUserIdRoomIdMap().get(userId);
 
 		// 룸 퇴장
 		roomIdUserIdRepository.getRoomIdUserIdMap().remove(roomId, userId);
-		userIdRoomIdRepository.getUerIdRoomIdMap().remove(userId);
+		userIdRoomIdRepository.getUserIdRoomIdMap().remove(userId);
 
 		result.put("method", method);
 
@@ -164,7 +164,7 @@ public class RoomService {
 		String userId = channelIdUserIdRepository.getChannelIdUserIdMap().get(channel.id());
 
 		// 룸에 입장해있는지 확인
-		if (!userIdRoomIdRepository.getUerIdRoomIdMap().containsKey(userId)) {
+		if (!userIdRoomIdRepository.getUserIdRoomIdMap().containsKey(userId)) {
 
 			messageService.returnMessage(channel, result, new Exception("룸에 존재하지 않습니다."), "1008");
 			return;
@@ -184,13 +184,13 @@ public class RoomService {
 		result.put("content", data.get("content"));
 
 		// 룸 아이디
-		String roomId = userIdRoomIdRepository.getUerIdRoomIdMap().get(userId);
+		String roomId = userIdRoomIdRepository.getUserIdRoomIdMap().get(userId);
 
 		// 룸에 메세지 전송
 		roomIdUserIdRepository.getRoomIdUserIdMap().getCollection(roomId).parallelStream().forEach(otherUserId -> {
 
 			// 채널 가져오기
-			Channel otherChannel = userIdChannelRepository.getUerIdChannelMap().get(otherUserId);
+			Channel otherChannel = userIdChannelRepository.getUserIdChannelMap().get(otherUserId);
 
 			// 채널이 활성화 상태가 아니라면 사용자를 제거
 			if (!otherChannel.isActive()) {
