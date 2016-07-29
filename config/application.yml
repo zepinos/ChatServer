@@ -1,8 +1,14 @@
 netty:
   server:
     transfer:
-      type: tcp
       port: 9812
+#      type: tcp
+      type: websocket
+      maxContentLength: 65535
+      websocket:
+        path: /websocket
+        subProtocol: null
+        allowExtensions: true
     thread:
       count:
         boss: 1

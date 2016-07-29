@@ -1,6 +1,7 @@
 package com.zepinos.chat.server.Repository;
 
 import com.zepinos.chat.server.Service.LoginService;
+import com.zepinos.chat.server.Service.MessageService;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,8 @@ public class UserIdChannelRepository {
 
 	@Autowired
 	private LoginService loginService;
+	@Autowired
+	private MessageService messageService;
 
 	private final Map<String, Channel> userIdChannelMap = new ConcurrentHashMap<>();
 
@@ -32,7 +35,7 @@ public class UserIdChannelRepository {
 
 			}
 
-			channel.writeAndFlush(returnMessage + System.lineSeparator());
+			channel.writeAndFlush(messageService.returnMessage(returnMessage));
 
 		});
 

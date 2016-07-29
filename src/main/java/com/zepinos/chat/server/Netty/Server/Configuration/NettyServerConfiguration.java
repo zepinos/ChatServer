@@ -101,6 +101,7 @@ public class NettyServerConfiguration {
 
 		switch (transferType) {
 
+			case "websocket":
 			case "tcp":
 			default:
 
